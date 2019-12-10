@@ -57,6 +57,10 @@ class CVTFObjectDetector:
         return result_array
 
     def reset(self):
+        """
+        Resets the variables.
+        Run once after every detection.
+        """
         self.input_image = None
         self.result_image = None
         self.rsize = (640,480)
