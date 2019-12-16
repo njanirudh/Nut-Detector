@@ -9,7 +9,7 @@ if __name__ == "__main__" :
     IMAGE = "/home/nj/Desktop/CV/Dataset/Images/CV19_image_20.jpeg"
     FROZEN_GRAPH = "/home/nj/Desktop/CV/Trained_Models/FRCNN_Tray.pb"
     PBTEXT = "/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
-    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_249.avi"
+    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_79.avi"
     LABELS = {0: "Walnut",
               1: "Peanut",
               2: "Hazelnut",

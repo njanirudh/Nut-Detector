@@ -18,6 +18,9 @@ class NutDetector:
                        2: "Hazelnut",
                        4: "Tray"}
 
+    def extract_stable_frame(self):
+        pass
+
     def run_detector(self):
         vidcap = cv2.VideoCapture(self.video_path)
         success, image = vidcap.read()
