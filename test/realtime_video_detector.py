@@ -36,25 +36,4 @@ if __name__ == "__main__" :
 
         obj_detector.reset()
 
-        # print(obj_detector.get_results())
-        # with open("ress.csv", 'wb') as f:
-        #     writer = csv.writer(f)
-        #     # writer.writerows(obj_detector.get_results())
-        #     for arr in obj_detector.get_results():
-        #         result_arr = []
-        #         result_arr.append(15)
-        #         x_mid, y_mid = self.__get_centre(arr["bbox"][0], arr["bbox"][1],
-        #                                          arr["bbox"][2], arr["bbox"][3])
-        #         result_arr.append(x_mid)
-        #         result_arr.append(y_mid)
-        #         result_arr.append(arr["label"])
-        #
-        #         writer.writerows(result_arr)
-
-
-        # except:
-        #     print("Done!!")
-
     cv2.destroyAllWindows()
-    # inference_on_image(FROZEN_GRAPH,PBTEXT,IMAGE)
-    # print(cv_object_detector.CVTFObjectDetector)

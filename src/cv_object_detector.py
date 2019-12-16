@@ -18,7 +18,6 @@ class CVTFObjectDetector:
     def set_input_image(self,image):
         self.input_image = cv2.resize(image,self.rsize,interpolation = cv2.INTER_AREA)
         self.result_image = cv2.resize(image,self.rsize,interpolation = cv2.INTER_AREA)
-#         self.result_image = image
 
     def run_detection(self):
         self.rows = self.input_image.shape[0]
