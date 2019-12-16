@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 if __name__ == "__main__":
-    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_69.avi" #20
+    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_79.avi" #20
     # VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_250.avi"
 
     cap = cv2.VideoCapture(VIDEO)
@@ -22,7 +22,7 @@ if __name__ == "__main__":
             gray = cv2.resize(gray,(640,480))
             gray = cv2.blur(gray,(5,5))
 
-            cv2.imshow('frame', gray)
+            # cv2.imshow('frame', gray)
             count += 1
 
             # hsh = cv2.img_hash.PHash_create()
