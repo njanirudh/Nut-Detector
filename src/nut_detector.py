@@ -11,6 +11,7 @@ class NutDetector:
         self.result_path = result_path
 
         self.stable_frame = None
+        self.stable_frame_count = 0
 
         self.FROZEN_GRAPH = "/home/nj/Desktop/CV/Trained_Models/FRCNN_Tray.pb"
         self.PBTEXT = "/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
@@ -55,6 +56,7 @@ class NutDetector:
                     if STATIONARY_FLAG:
                         if unique < 15:
                             print("--->", count)
+                            self.stable_frame_count = count
                             self.stable_frame = full_frame_stable
                             break
 
@@ -74,7 +76,7 @@ class NutDetector:
             all_results_array = []
             for arr in result_dict:
                 result_arr = []
-                result_arr.append(15)
+                result_arr.append(self.stable_frame_count)
                 x_mid,y_mid = self.__get_centre(arr["bbox"][0],arr["bbox"][1],
                                                 arr["bbox"][2],arr["bbox"][3])
                 result_arr.append(x_mid)
@@ -91,7 +93,7 @@ class NutDetector:
 
 
 if __name__=="__main__":
-    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_219.avi"
+    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_107.avi"
     Result_Path = "/home/nj/Desktop/result.csv"
 
     nut_detector = NutDetector(VIDEO,Result_Path)

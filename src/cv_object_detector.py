@@ -32,7 +32,7 @@ class CVTFObjectDetector:
     def get_inference_image(self):
         for detection in self.cvOut[0,0,:,:]:
             score = float(detection[2])
-            if score > 0.6:
+            if score > 0.7:
                 left = detection[3] * self.cols
                 top = detection[4] * self.rows
                 right = detection[5] * self.cols

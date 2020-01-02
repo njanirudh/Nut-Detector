@@ -2,7 +2,8 @@ import argparse
 import cv2
 import csv
 import math
-from cv_object_detector import CVTFObjectDetector
+import os
+from src.cv_object_detector import CVTFObjectDetector
 
 if __name__ == "__main__" :
 
@@ -26,13 +27,16 @@ if __name__ == "__main__" :
         success, image = vidcap.read()
 
         obj_detector.set_input_image(image)
-        obj_detector.run_detection()
-        obj_detector.set_labels(LABELS)
-        print('Read a new frame: ', success,count)
+        # obj_detector.run_detection()
+        # obj_detector.set_labels(LABELS)
+        # print('Read a new frame: ', success,count)
         count += 1
 
-        cv2.imshow('img', obj_detector.get_inference_image())
-        cv2.waitKey(20)
+        # cv2.imshow('img', obj_detector.get_inference_image())
+        if count % 3 == 0:
+            cv2.imwrite(os.path.join("/home/nj/Desktop/RnD/video",str(count)+".jpg"),image)
+
+        cv2.waitKey(10)
 
         obj_detector.reset()
 
