@@ -89,11 +89,14 @@ class NutDetector:
                 # print(result_arr)
 
     def __get_centre(self,left,top,right,bottom):
+        """
+        Obtain the centre of the bounding-box
+        """
         return (math.ceil((left + right)/2), math.ceil((top + bottom)/2))
 
 
 if __name__=="__main__":
-    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_107.avi"
+    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_73.avi"
     Result_Path = "/home/nj/Desktop/result.csv"
 
     nut_detector = NutDetector(VIDEO,Result_Path)
