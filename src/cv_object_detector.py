@@ -44,7 +44,7 @@ class CVTFObjectDetector:
         self.cvNet.setInput(cv2.dnn.blobFromImage(self.input_image, size=self.rsize,
                                                 swapRB=True, crop=False))
         self.cvOut = self.cvNet.forward()
-        print("[INFO] Inference successfully completed.")
+        print("[INFO] Inference completed successfully.")
 
     def get_inference_image(self):
         """

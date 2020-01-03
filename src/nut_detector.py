@@ -1,8 +1,7 @@
+import os
 import cv2
 import csv
 import numpy as np
-import math
-import os
 from utility import *
 from cv_object_detector import CVTFObjectDetector
 
@@ -17,6 +16,11 @@ class NutDetector:
 
         self.FROZEN_GRAPH = "/home/nj/Desktop/CV/Trained_Models/FRCNN_Tray.pb"
         self.PBTEXT = "/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
+
+        print("[INFO] Input video path : ",self.video_path)
+        print("[INFO] Result path : ",self.result_path)
+        print("[INFO] Frozen graph path : ",self.FROZEN_GRAPH)
+        print("[INFO] Pbtext path : ",self.PBTEXT)
 
         self.obj_detector = CVTFObjectDetector()
 
@@ -41,8 +45,6 @@ class NutDetector:
         while True:
             success, current_frame = vidcap.read()
             if success == True:
-                count += 1
-
                 # Preprocess image before sending it for inference
                 full_frame_stable = current_frame
                 current_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGR2GRAY)
@@ -59,12 +61,13 @@ class NutDetector:
 
                     if STATIONARY_FLAG:
                         if unique < 15:
-                            print("[INFO] The stable frame is : ",count)
+                            print("[INFO] The stable frame number is : ",count)
                             self.stable_frame_count = count
                             self.stable_frame = full_frame_stable
                             break
 
                 old_frame = current_frame
+            count += 1
 
     def run_detection(self):
         """
@@ -117,7 +120,6 @@ class NutDetector:
         # not present in the 'Tray'
         for res in input_array:
             overlap_area = bb_intersection_over_union(tray_rect_values,res['bbox'])
-            print(overlap_area)
             if overlap_area != 0.0:
                 postprocess_result.append(res)
 
