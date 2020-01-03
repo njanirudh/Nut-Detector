@@ -71,7 +71,7 @@ class NutDetector:
         """
         self.obj_detector.set_parameters(self.FROZEN_GRAPH, self.PBTEXT)
         self.obj_detector.set_labels(self.LABELS)
-        self.obj_detector.set_input_image(self.stable_frame)
+        self.obj_detector.set_input_image(self.stable_frame,(640,480))
         self.obj_detector.run_detection()
 
     def get_results(self):
