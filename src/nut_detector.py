@@ -3,6 +3,7 @@ import csv
 import numpy as np
 import math
 import os
+from utility import *
 from cv_object_detector import CVTFObjectDetector
 
 class NutDetector:
@@ -87,7 +88,7 @@ class NutDetector:
             for arr in result_dict:
                 result_arr = []
                 result_arr.append(self.stable_frame_count)
-                x_mid,y_mid = self.__get_centre(arr["bbox"][0],arr["bbox"][1],
+                x_mid,y_mid = get_rect_centre(arr["bbox"][0],arr["bbox"][1],
                                                 arr["bbox"][2],arr["bbox"][3])
                 result_arr.append(x_mid)
                 result_arr.append(y_mid)
@@ -96,30 +97,6 @@ class NutDetector:
                 all_results_array.append(result_arr)
 
             writer.writerows(all_results_array)
-                # print(result_arr)
-
-    def bb_intersection_over_union(self,boxA, boxB):
-        # determine the (x, y)-coordinates of the intersection rectangle
-        xA = max(boxA[0], boxB[0])
-        yA = max(boxA[1], boxB[1])
-        xB = min(boxA[2], boxB[2])
-        yB = min(boxA[3], boxB[3])
-
-        # compute the area of intersection rectangle
-        interArea = max(0, xB - xA + 1) * max(0, yB - yA + 1)
-
-        # compute the area of both the prediction and ground-truth
-        # rectangles
-        boxAArea = (boxA[2] - boxA[0] + 1) * (boxA[3] - boxA[1] + 1)
-        boxBArea = (boxB[2] - boxB[0] + 1) * (boxB[3] - boxB[1] + 1)
-
-        # compute the intersection over union by taking the intersection
-        # area and dividing it by the sum of prediction + ground-truth
-        # areas - the interesection area
-        iou = interArea / float(boxAArea + boxBArea - interArea)
-
-        # return the intersection over union value
-        return iou
 
     def __postprocess_result(self,input_array):
 
@@ -131,18 +108,13 @@ class NutDetector:
                 break
 
         for res in input_array:
-            overlap_area = self.bb_intersection_over_union(tray_rect_values,res['bbox'])
+            overlap_area = bb_intersection_over_union(tray_rect_values,res['bbox'])
             print(overlap_area)
             if overlap_area != 0.0:
                 postprocess_result.append(res)
 
         return postprocess_result
 
-    def __get_centre(self,left,top,right,bottom):
-        """
-        Obtain the centre of the bounding-box
-        """
-        return (math.ceil((left + right)/2), math.ceil((top + bottom)/2))
 
 
 if __name__=="__main__":
