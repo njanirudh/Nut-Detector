@@ -10,17 +10,21 @@ class CVTFObjectDetector:
         self.cvOut = None
         self.Threshold = 0.7
 
+        print("[INFO] Threshold : ",self.Threshold)
+
     def set_labels(self,label:dict):
         """
         Set dictionary of possible label names.
         """
         self.label_dict = label
+        print("[INFO] Label dictionary : ",label)
 
     def set_parameters(self,frozen_graph:str,pb_text:str):
         """
         Setting the paths to the 'frozen graph' and 'pb text'.
         """
         self.cvNet = cv2.dnn.readNetFromTensorflow(frozen_graph, pb_text)
+        print("[INFO] OpenCV object detector created.")
 
     def set_input_image(self,image,resize):
         """
@@ -40,6 +44,7 @@ class CVTFObjectDetector:
         self.cvNet.setInput(cv2.dnn.blobFromImage(self.input_image, size=self.rsize,
                                                 swapRB=True, crop=False))
         self.cvOut = self.cvNet.forward()
+        print("[INFO] Inference successfully completed.")
 
     def get_inference_image(self):
         """
@@ -52,11 +57,14 @@ class CVTFObjectDetector:
                 top = int(detection[4]  * self.rows)
                 right = int(detection[5]  * self.cols)
                 bottom = int(detection[6]  * self.rows)
+
+                # Draw the bounding-box on the image
                 cv2.rectangle(self.result_image,(left, top),(right, bottom), (23, 230, 210), thickness=2)
                 cv2.drawMarker(self.result_image,get_rect_centre(left, top,right, bottom),(255,0,0))
                 cv2.putText(self.result_image, self.label_dict[int(detection[1])] + " : " + str(round(score,4)),\
                  (int(left-10),int(top-10)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,255), 2)
 
+        print("[INFO] Result image generated successfully.")
         return self.result_image
 
     def get_results(self):
@@ -79,6 +87,7 @@ class CVTFObjectDetector:
 
                 result_array.append(single_result)
 
+        print("[INFO] Result dictionary generated successfully.")
         return result_array
 
     def reset(self):

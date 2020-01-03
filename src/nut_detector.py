@@ -27,7 +27,7 @@ class NutDetector:
 
     def extract_most_stable_frame(self):
         """
-
+        Extract the frame with no moving objects ie. Stable frame.
         """
         vidcap = cv2.VideoCapture(self.video_path)
 
@@ -37,29 +37,29 @@ class NutDetector:
 
         STATIONARY_FLAG = False
 
+        # Extract frames from video
         while True:
             success, current_frame = vidcap.read()
             if success == True:
                 count += 1
 
+                # Preprocess image before sending it for inference
                 full_frame_stable = current_frame
                 current_frame = cv2.cvtColor(current_frame, cv2.COLOR_BGR2GRAY)
                 current_frame = cv2.resize(current_frame, (640, 480))
                 current_frame = cv2.blur(current_frame, (5, 5))
 
                 if old_frame is not None:
-                    # print("Frame No:", count)
-
                     diff_image = cv2.absdiff(old_frame, current_frame)
                     unique = len(np.unique(diff_image))
-                    # print("//", unique)
+                    print("Frame No:", count," | ", unique)
 
                     if unique > 150:
                         STATIONARY_FLAG = True
 
                     if STATIONARY_FLAG:
                         if unique < 15:
-                            print("--->", count)
+                            print("[INFO] The stable frame is : ",count)
                             self.stable_frame_count = count
                             self.stable_frame = full_frame_stable
                             break
@@ -68,7 +68,7 @@ class NutDetector:
 
     def run_detection(self):
         """
-
+        Run detection with input, parameters.
         """
         self.obj_detector.set_parameters(self.FROZEN_GRAPH, self.PBTEXT)
         self.obj_detector.set_labels(self.LABELS)
@@ -77,11 +77,13 @@ class NutDetector:
 
     def get_results(self):
         """
-
+        Prints the results in the given folder.
         """
         cv2.imwrite(os.path.join(self.result_path,"result.jpg"),self.obj_detector.get_inference_image())
         result_dict = self.obj_detector.get_results()
         result_dict = self.__postprocess_result(result_dict)
+
+        # Writes the result to '.csv' file
         with open(os.path.join(self.result_path,"result.csv"), 'w') as f:
             writer = csv.writer(f,delimiter=',')
             all_results_array = []
@@ -99,14 +101,20 @@ class NutDetector:
             writer.writerows(all_results_array)
 
     def __postprocess_result(self,input_array):
-
+        """
+        Removes detected items outside the 'Tray'.
+        """
         tray_rect_values = None
         postprocess_result = []
+
+        # Get the bounding box of the tray
         for res in input_array:
             if res['label'] == 'Tray' :
                 tray_rect_values = res['bbox']
                 break
 
+        # Remove object bounding boxs that are
+        # not present in the 'Tray'
         for res in input_array:
             overlap_area = bb_intersection_over_union(tray_rect_values,res['bbox'])
             print(overlap_area)
