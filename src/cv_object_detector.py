@@ -1,5 +1,6 @@
 import cv2
 import math
+from utility import get_rect_centre
 
 class CVTFObjectDetector:
     def __init__(self):
@@ -12,16 +13,19 @@ class CVTFObjectDetector:
 
     def set_labels(self,label):
         """
+        Dictionary of possible label name
         """
         self.label_dict = label
 
     def set_parameters(self,frozen_graph,pb_text):
         """
+        Setting the paths to the 'frozen graph' and 'pb text'
         """
         self.cvNet = cv2.dnn.readNetFromTensorflow(frozen_graph, pb_text)
 
     def set_input_image(self,image):
         """
+        Set input image for inference
         """
         self.input_image = cv2.resize(image,self.rsize,interpolation = cv2.INTER_AREA)
         #self.result_image = cv2.resize(image,self.rsize,interpolation = cv2.INTER_AREA)
@@ -29,17 +33,13 @@ class CVTFObjectDetector:
 
     def run_detection(self):
         """
+        Running the detection after the values are set
         """
         self.rows = self.result_image.shape[0]
         self.cols = self.result_image.shape[1]
         self.cvNet.setInput(cv2.dnn.blobFromImage(self.input_image, size=self.rsize,
                                                 swapRB=True, crop=False))
         self.cvOut = self.cvNet.forward()
-
-    def __get_centre(self,left,top,right,bottom):
-        """
-        """
-        return (math.ceil((left + right)/2), math.ceil((top + bottom)/2))
 
     def get_inference_image(self):
         """
@@ -52,7 +52,7 @@ class CVTFObjectDetector:
                 right = int(detection[5]  * self.cols)
                 bottom = int(detection[6]  * self.rows)
                 cv2.rectangle(self.result_image,(left, top),(right, bottom), (23, 230, 210), thickness=2)
-                cv2.drawMarker(self.result_image,self.__get_centre(left, top,right, bottom),(255,0,0))
+                cv2.drawMarker(self.result_image,get_rect_centre(left, top,right, bottom),(255,0,0))
                 cv2.putText(self.result_image, self.label_dict[int(detection[1])], (int(left-10),int(top-10)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,255), 2)
 
         return self.result_image
