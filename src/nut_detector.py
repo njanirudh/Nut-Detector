@@ -116,16 +116,17 @@ class NutDetector:
                 tray_rect_values = res['bbox']
                 break
 
-        # Remove object bounding boxs that are
+        # Remove object bounding boxes that are
         # not present in the 'Tray'
         for res in input_array:
             overlap_area = bb_intersection_over_union(tray_rect_values,res['bbox'])
             if overlap_area != 0.0:
                 postprocess_result.append(res)
 
+        print("[INFO] Total detections before post-processing : ",len(input_array))
+        print("[INFO] Total detections after  post-processing : ",len(postprocess_result))
+
         return postprocess_result
-
-
 
 if __name__=="__main__":
     VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_73.avi"
