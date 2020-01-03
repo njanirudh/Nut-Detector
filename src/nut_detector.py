@@ -2,6 +2,7 @@ import cv2
 import csv
 import numpy as np
 import math
+import os
 from cv_object_detector import CVTFObjectDetector
 
 class NutDetector:
@@ -24,6 +25,9 @@ class NutDetector:
                        3: "Tray"}
 
     def extract_most_stable_frame(self):
+        """
+
+        """
         vidcap = cv2.VideoCapture(self.video_path)
 
         count = 0
@@ -46,7 +50,6 @@ class NutDetector:
                     print("Frame No:", count)
 
                     diff_image = cv2.absdiff(old_frame, current_frame)
-                    # print(np.sum(diff_image == 0) / (640 * 480))
                     unique = len(np.unique(diff_image))
                     print("//", unique)
 
@@ -63,15 +66,21 @@ class NutDetector:
                 old_frame = current_frame
 
     def run_detection(self):
+        """
+
+        """
         self.obj_detector.set_parameters(self.FROZEN_GRAPH, self.PBTEXT)
         self.obj_detector.set_labels(self.LABELS)
         self.obj_detector.set_input_image(self.stable_frame)
         self.obj_detector.run_detection()
 
     def get_results(self):
-        cv2.imwrite("/home/nj/Desktop/result.jpg",self.obj_detector.get_inference_image())
+        """
+
+        """
+        cv2.imwrite(os.path.join(self.result_path,"result.jpg"),self.obj_detector.get_inference_image())
         result_dict = self.obj_detector.get_results()
-        with open(self.result_path, 'w') as f:
+        with open(os.path.join(self.result_path,"result.csv"), 'w') as f:
             writer = csv.writer(f,delimiter=',')
             all_results_array = []
             for arr in result_dict:
@@ -97,7 +106,7 @@ class NutDetector:
 
 if __name__=="__main__":
     VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_73.avi"
-    Result_Path = "/home/nj/Desktop/result.csv"
+    Result_Path = "/home/nj/Desktop/result"
 
     nut_detector = NutDetector(VIDEO,Result_Path)
     nut_detector.extract_most_stable_frame()
