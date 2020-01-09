@@ -2,20 +2,21 @@ import os
 import cv2
 import csv
 import numpy as np
-from utility import *
 from cv_object_detector import CVTFObjectDetector
+from utility import *
+
 
 class NutDetector:
 
-    def __init__(self,video_path,result_path):
+    def __init__(self,video_path,result_path,frozen_graph,pbtxt_path):
         self.video_path = video_path
         self.result_path = result_path
 
         self.stable_frame = None
         self.stable_frame_count = 0
 
-        self.FROZEN_GRAPH = "/home/nj/Desktop/CV/Trained_Models/FRCNN_Tray.pb"
-        self.PBTEXT = "/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
+        self.FROZEN_GRAPH = frozen_graph  #"C:\\Users\\Anirudh\\PycharmProjects\\Nut-Detector\\model\\FRCNN_Tray.pb"
+        self.PBTEXT = pbtxt_path  #"/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
 
         print("[INFO] Input video path : ",self.video_path)
         print("[INFO] Result path : ",self.result_path)
@@ -132,7 +133,7 @@ if __name__=="__main__":
     VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_73.avi"
     Result_Path = "/home/nj/Desktop/result"
 
-    nut_detector = NutDetector(VIDEO,Result_Path)
+    nut_detector = NutDetector(VIDEO,Result_Path,"","")
     nut_detector.extract_most_stable_frame()
     nut_detector.run_detection()
     nut_detector.get_results()
