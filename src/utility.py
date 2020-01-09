@@ -15,7 +15,7 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def ERROR(input_str:str):
-    return (bcolors.WARNING + "[ERROR] " + input_str + bcolors.ENDC)
+    return (bcolors.FAIL + "[ERROR] " + input_str + bcolors.ENDC)
 
 def INFO(input_str:str):
     return ("[INFO] " + input_str)

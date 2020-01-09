@@ -14,13 +14,13 @@ class NutDetector:
         self.stable_frame = None
         self.stable_frame_count = 0
 
-        self.FROZEN_GRAPH = frozen_graph  #"C:\\Users\\Anirudh\\PycharmProjects\\Nut-Detector\\model\\FRCNN_Tray.pb"
-        self.PBTEXT = pbtxt_path  #"/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
+        self.FROZEN_GRAPH = frozen_graph
+        self.PBTEXT = pbtxt_path
 
-        print("[INFO] Input video path : ",self.video_path)
-        print("[INFO] Result path : ",self.result_path)
-        print("[INFO] Frozen graph path : ",self.FROZEN_GRAPH)
-        print("[INFO] Pbtext path : ",self.PBTEXT)
+        print(DEBUG(" Input video path : "+str(self.video_path)))
+        print(DEBUG(" Result path : "+str(self.result_path)))
+        print(DEBUG(" Frozen graph path : "+str(self.FROZEN_GRAPH)))
+        print(DEBUG(" Pbtext path : "+str(self.PBTEXT)))
 
         self.obj_detector = CVTFObjectDetector()
 
