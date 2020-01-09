@@ -7,7 +7,7 @@ from utility import *
 from nut_detector import NutDetector
 
 # st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-sys.stdout=open("test.txt","w")
+sys.stdout=open("prototype.txt","w")
 
 if __name__=="__main__":
 
