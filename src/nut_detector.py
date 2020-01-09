@@ -95,14 +95,16 @@ class NutDetector:
             all_results_array = []
             for arr in result_dict:
                 result_arr = []
-                result_arr.append(self.stable_frame_count)
-                x_mid,y_mid = get_rect_centre(arr["bbox"][0],arr["bbox"][1],
-                                                arr["bbox"][2],arr["bbox"][3])
-                result_arr.append(x_mid)
-                result_arr.append(y_mid)
-                result_arr.append(arr["label"])
 
-                all_results_array.append(result_arr)
+                if arr["label"] != "Tray":
+                    result_arr.append(self.stable_frame_count)
+                    x_mid,y_mid = get_rect_centre(arr["bbox"][0],arr["bbox"][1],
+                                                    arr["bbox"][2],arr["bbox"][3])
+                    result_arr.append(x_mid)
+                    result_arr.append(y_mid)
+                    result_arr.append(arr["label"])
+
+                    all_results_array.append(result_arr)
 
             writer.writerows(all_results_array)
 
