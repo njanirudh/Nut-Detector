@@ -85,12 +85,12 @@ class NutDetector:
         """
         Prints the results in the given folder.
         """
-        cv2.imwrite(os.path.join(self.result_path,os.path.join(self.filename,".jpg")),self.obj_detector.get_inference_image())
+        cv2.imwrite(os.path.join(self.result_path,str(self.filename+".jpg")),self.obj_detector.get_inference_image())
         result_dict = self.obj_detector.get_results()
         result_dict = self.__postprocess_result(result_dict)
 
         # Writes the result to '.csv' file
-        with open(os.path.join(self.result_path,os.path.join(self.filename,".csv")), 'w',newline='') as f:
+        with open(os.path.join(self.result_path,str(self.filename+".csv")), 'w',newline='') as f:
             writer = csv.writer(f,delimiter=',')
             all_results_array = []
             for arr in result_dict:
