@@ -5,7 +5,6 @@ import numpy as np
 from cv_object_detector import CVTFObjectDetector
 from utility import *
 
-
 class NutDetector:
 
     def __init__(self,video_path,result_path,frozen_graph,pbtxt_path):
