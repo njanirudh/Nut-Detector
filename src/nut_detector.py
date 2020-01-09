@@ -62,7 +62,7 @@ class NutDetector:
 
                     if STATIONARY_FLAG:
                         if unique < 15:
-                            print("[INFO] The stable frame number is : ",count)
+                            print(DEBUG(" The stable frame number is : " + str(count)))
                             self.stable_frame_count = count
                             self.stable_frame = full_frame_stable
                             break
