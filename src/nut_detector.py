@@ -2,14 +2,17 @@ import os
 import cv2
 import csv
 import numpy as np
-from cv_object_detector import CVTFObjectDetector
+from pathlib import Path
+
 from utility import *
+from cv_object_detector import CVTFObjectDetector
 
 class NutDetector:
 
     def __init__(self,video_path,result_path,frozen_graph,pbtxt_path):
         self.video_path = video_path
         self.result_path = result_path
+        self.filename = Path(video_path).stem
 
         self.stable_frame = None
         self.stable_frame_count = 0
@@ -82,12 +85,12 @@ class NutDetector:
         """
         Prints the results in the given folder.
         """
-        cv2.imwrite(os.path.join(self.result_path,"result.jpg"),self.obj_detector.get_inference_image())
+        cv2.imwrite(os.path.join(self.result_path,os.path.join(self.filename,".jpg")),self.obj_detector.get_inference_image())
         result_dict = self.obj_detector.get_results()
         result_dict = self.__postprocess_result(result_dict)
 
         # Writes the result to '.csv' file
-        with open(os.path.join(self.result_path,"result.csv"), 'w') as f:
+        with open(os.path.join(self.result_path,os.path.join(self.filename,".csv")), 'w',newline='') as f:
             writer = csv.writer(f,delimiter=',')
             all_results_array = []
             for arr in result_dict:
@@ -123,8 +126,8 @@ class NutDetector:
             if overlap_area != 0.0:
                 postprocess_result.append(res)
 
-        print("[INFO] Total detections before post-processing : ",len(input_array))
-        print("[INFO] Total detections after  post-processing : ",len(postprocess_result))
+        print(DEBUG(" Total detections before post-processing : "+str(len(input_array))))
+        print(DEBUG(" Total detections after  post-processing : "+str(len(postprocess_result))))
 
         return postprocess_result
 

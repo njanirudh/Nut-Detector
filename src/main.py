@@ -7,7 +7,7 @@ from utility import *
 from nut_detector import NutDetector
 
 # st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-# sys.stdout = open("../log.txt", 'r')
+sys.stdout=open("test.txt","w")
 
 if __name__=="__main__":
 
@@ -52,3 +52,5 @@ if __name__=="__main__":
     nut_detector.extract_most_stable_frame()
     nut_detector.run_detection()
     nut_detector.get_results()
+
+    sys.stdout.close()
