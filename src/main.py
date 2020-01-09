@@ -12,13 +12,13 @@ from nut_detector import NutDetector
 if __name__=="__main__":
 
     parser = argparse.ArgumentParser(description='Commandline application to detect Nuts in a video.')
-    parser.add_argument('--video_path', type=str, default='..\\test_video.mp4',
+    parser.add_argument('--video_path', type=str, default='../Test/test_video.avi',
                         help='path of the video to run detection')
-    parser.add_argument('--result_path', type=str, default='..\Results',
+    parser.add_argument('--result_path', type=str, default='../Results',
                         help='path to the folder to save evaluation results.')
-    parser.add_argument('--frozen_graph', type=str, default='..\Dependencies\FRCNN_Tray.pb',
+    parser.add_argument('--frozen_graph', type=str, default='../Dependencies/FRCNN_Tray.pb',
                         help='path to the tensorflow frozen graph.')
-    parser.add_argument('--pbtxt_path', type=str, default='..\Dependencies\opencv_frcnn_tray.pbtxt',
+    parser.add_argument('--pbtxt_path', type=str, default='../Dependencies/opencv_frcnn_tray.pbtxt',
                         help='path to the pbtxt path.')
 
     args = parser.parse_args()
