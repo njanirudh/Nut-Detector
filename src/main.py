@@ -21,17 +21,17 @@ if __name__=="__main__":
 
     if not (args.video_path or args.result_path or args.frozen_graph or args.pbtxt_path):
         print("Valid '--video_path', '--result_path', --frozen_graph or --pbtxt_path not set.")
-
+    # ------
     if Path(args.video_path).is_file():
         print(INFO("Video found successfully."))
     else:
         print(ERROR("Video file not valid."))
-
+    # ------
     if Path(args.frozen_graph).is_file():
         print(INFO("Frozen graph found successfully."))
     else:
         print(ERROR("Frozen graph file not found."))
-
+    # ------
     if Path(args.pbtxt_path).is_file():
         print(INFO("Pbtxt found successfully."))
     else:
