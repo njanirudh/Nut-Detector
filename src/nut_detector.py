@@ -2,26 +2,28 @@ import os
 import cv2
 import csv
 import numpy as np
-from cv_object_detector import CVTFObjectDetector
-from utility import *
+from pathlib import Path
 
+from utility import *
+from cv_object_detector import CVTFObjectDetector
 
 class NutDetector:
 
     def __init__(self,video_path,result_path,frozen_graph,pbtxt_path):
         self.video_path = video_path
         self.result_path = result_path
+        self.filename = Path(video_path).stem
 
         self.stable_frame = None
         self.stable_frame_count = 0
 
-        self.FROZEN_GRAPH = frozen_graph  #"C:\\Users\\Anirudh\\PycharmProjects\\Nut-Detector\\model\\FRCNN_Tray.pb"
-        self.PBTEXT = pbtxt_path  #"/home/nj/Desktop/CV/Dataset/Trained/FRCNN_TRAY/opencv_frcnn_tray.pbtxt"
+        self.FROZEN_GRAPH = frozen_graph
+        self.PBTEXT = pbtxt_path
 
-        print("[INFO] Input video path : ",self.video_path)
-        print("[INFO] Result path : ",self.result_path)
-        print("[INFO] Frozen graph path : ",self.FROZEN_GRAPH)
-        print("[INFO] Pbtext path : ",self.PBTEXT)
+        print(DEBUG(" Input video path : "+str(self.video_path)))
+        print(DEBUG(" Result path : "+str(self.result_path)))
+        print(DEBUG(" Frozen graph path : "+str(self.FROZEN_GRAPH)))
+        print(DEBUG(" Pbtext path : "+str(self.PBTEXT)))
 
         self.obj_detector = CVTFObjectDetector()
 
@@ -62,7 +64,7 @@ class NutDetector:
 
                     if STATIONARY_FLAG:
                         if unique < 15:
-                            print("[INFO] The stable frame number is : ",count)
+                            print(DEBUG(" The stable frame number is : " + str(count)))
                             self.stable_frame_count = count
                             self.stable_frame = full_frame_stable
                             break
@@ -83,24 +85,26 @@ class NutDetector:
         """
         Prints the results in the given folder.
         """
-        cv2.imwrite(os.path.join(self.result_path,"result.jpg"),self.obj_detector.get_inference_image())
+        cv2.imwrite(os.path.join(self.result_path,str(self.filename+".jpg")),self.obj_detector.get_inference_image())
         result_dict = self.obj_detector.get_results()
         result_dict = self.__postprocess_result(result_dict)
 
         # Writes the result to '.csv' file
-        with open(os.path.join(self.result_path,"result.csv"), 'w') as f:
+        with open(os.path.join(self.result_path,str(self.filename+".csv")), 'w',newline='') as f:
             writer = csv.writer(f,delimiter=',')
             all_results_array = []
             for arr in result_dict:
                 result_arr = []
-                result_arr.append(self.stable_frame_count)
-                x_mid,y_mid = get_rect_centre(arr["bbox"][0],arr["bbox"][1],
-                                                arr["bbox"][2],arr["bbox"][3])
-                result_arr.append(x_mid)
-                result_arr.append(y_mid)
-                result_arr.append(arr["label"])
 
-                all_results_array.append(result_arr)
+                if arr["label"] != "Tray":
+                    result_arr.append(self.stable_frame_count)
+                    x_mid,y_mid = get_rect_centre(arr["bbox"][0],arr["bbox"][1],
+                                                    arr["bbox"][2],arr["bbox"][3])
+                    result_arr.append(x_mid)
+                    result_arr.append(y_mid)
+                    result_arr.append(arr["label"])
+
+                    all_results_array.append(result_arr)
 
             writer.writerows(all_results_array)
 
@@ -124,16 +128,17 @@ class NutDetector:
             if overlap_area != 0.0:
                 postprocess_result.append(res)
 
-        print("[INFO] Total detections before post-processing : ",len(input_array))
-        print("[INFO] Total detections after  post-processing : ",len(postprocess_result))
+        print(DEBUG(" Total detections before post-processing : "+str(len(input_array))))
+        print(DEBUG(" Total detections after  post-processing : "+str(len(postprocess_result))))
 
         return postprocess_result
 
 if __name__=="__main__":
-    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_73.avi"
-    Result_Path = "/home/nj/Desktop/result"
-
-    nut_detector = NutDetector(VIDEO,Result_Path,"","")
-    nut_detector.extract_most_stable_frame()
-    nut_detector.run_detection()
-    nut_detector.get_results()
+    # VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_73.avi"
+    # Result_Path = "/home/nj/Desktop/result"
+    #
+    # nut_detector = NutDetector(VIDEO,Result_Path,"","")
+    # nut_detector.extract_most_stable_frame()
+    # nut_detector.run_detection()
+    # nut_detector.get_results()
+    pass
