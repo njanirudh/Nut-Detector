@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 if __name__ == "__main__":
-    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_79.avi" #20
+    VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_305.avi" #20
     # VIDEO = "/home/nj/HBRS/Studies/Sem-3/CV/Dataset/Videos/CV19_video_250.avi"
 
     cap = cv2.VideoCapture(VIDEO)
@@ -31,15 +31,16 @@ if __name__ == "__main__":
             current_hash = hsh.compute(gray)
 
             if old_hash is not None :
-                print("Frame No:", count)
+                # print("Frame No:", count)
                 # print(hsh.compare(current_hash,old_hash))
                 diff_image = cv2.absdiff(old_image,gray)
-                print(np.sum(diff_image == 0)/(640*480))
+                # print(np.sum(diff_image == 0)/(640*480))
                 unique = len(np.unique(diff_image))
                 print(unique)
                 print()
 
                 if unique > 150 :
+                    print("--->", count)
                     STUPID_FLAG = True
 
                 if STUPID_FLAG :
