@@ -5,6 +5,12 @@ Detect three class of nuts kept in a colored tray under variable lighting and va
 ### Introduction
 The main goal of this task is to detect three classes of nuts ie. Haselnuts, Peanuts, Walnuts that are thrown randomly on a uniformly colored tray using computer vision. The image of the tray is taken at different light brightness and distances.
 
+### Pipeline
+
+The general pipeline consists of 3 steps. The stable frame detection is performed using classical computer vision method. The main object detection part involves training a deep learning model.
+
+<img src="/images/Camera.png" width="800"></img>
+
 ---
 ### Results
 
