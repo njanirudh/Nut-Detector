@@ -14,7 +14,3 @@ Extra objects called as distractors are used to confuse the object detector.
 The general pipeline consists of 3 steps. The stable frame detection is performed using classical computer vision method. The main object detection part involves training a deep learning model.
 
 <img src="/images/Camera.png" width="800"></img>
-
----
-### Results
-
