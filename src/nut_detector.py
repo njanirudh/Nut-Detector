@@ -4,8 +4,8 @@ import csv
 import numpy as np
 from pathlib import Path
 
-from utility import *
-from cv_object_detector import CVTFObjectDetector
+from src.utility import *
+from src.cv_object_detector import CVTFObjectDetector
 
 class NutDetector:
 

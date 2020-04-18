@@ -1,6 +1,6 @@
 import cv2
 import math
-from utility import get_rect_centre
+from src.utility import get_rect_centre
 
 class CVTFObjectDetector:
     def __init__(self):
