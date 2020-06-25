@@ -1,5 +1,6 @@
 # Nut-Detector
 Detect three class of nuts kept in a colored tray under variable lighting and variable tray pose and distances on the stable frame of the video. The complete report is given [here](https://github.com/njanirudh/Nut-Detector/blob/master/report/CV19_project_paper.pdf) and the final presentation is [here](https://github.com/njanirudh/Nut-Detector/blob/master/report/cv19_FINAL_presentation.pdf).
+*This implementation achieved the highest score in the competition with a success rate of 85% on hold-out dataset.*
 
 ---
 ### Introduction
